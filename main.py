@@ -31,6 +31,10 @@ lCurrencies = xxx['result']
 print (lCurrencies)
 dctMain = {}
 
+yyy = exChangelly.getRate('xmr','eth');
+print(yyy)
+sys.exit(1)
+
 class myThread(threading.Thread):
 
    def __init__(self, threadID, name, sfromExch):

@@ -1,9 +1,10 @@
 import json
 import requests
+from broker import broker
 
 
 
-class Shapeshift(object):
+class Shapeshift(broker):
     ''' Coomnon for multiple _init__ function
 
     '''
@@ -34,26 +35,32 @@ class Shapeshift(object):
         self.myinit()
         self.dctCoins = self.getCoinName()
 
-
+    def getRate(self, sFrom, sTo):
+        '''
+        Interface from broker
+        :param sFrom:
+        :param sTo:
+        :return:
+        '''
+        sPair = sFrom + '_' + sTo
+        response = requests.get(self.API_URL + '/rate/' + sPair)
+        aaa = response.json()
+        print(response.json())
+        print (response)
+        return aaa['rate']
 
     def get_all(self):
-        response = requests.get(self.API_URL + '/rate')
+        response = requests.get(self.API_URL + '/rate' )
         return response
 
 if __name__ == "__main__":
     print ("running Main shapeshift.py")
     myss = Shapeshift('true')
-    message = {
-        'jsonrpc': '2.0',
-        'id': 2,
-        'method': 'rate',
-        'params': {
-
-        }
-    }
-    serialized_data = json.dumps(message)
-    headers = {'Content-type': 'application/json'}
-    #response = requests.post(myss.API_URL, headers=headers, data=serialized_data)
+    aRate = myss.getRate('CLAM','DOGE')
+    print (aRate)
+#    serialized_data = json.dumps(message)
+#    headers = {'Content-type': 'application/json'}
+#    response = requests.post(myss.API_URL, headers=headers, data=serialized_data)
 
     #type(response.json())
     #rrr = requests.get(myss.API_URL+'/rate')

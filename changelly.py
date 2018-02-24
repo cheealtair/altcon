@@ -2,6 +2,7 @@ import hashlib
 import hmac
 import json
 import requests
+from broker import broker
 
 # DECORATOR
 def getResponse(bb):
@@ -19,7 +20,7 @@ def getResponse(bb):
    return wrap
 
 
-class Changelly(object):
+class Changelly(broker):
 
    def __init__(self):
       self.API_URL = 'https://api.changelly.com'
@@ -52,6 +53,21 @@ class Changelly(object):
          }
       }
       return message
+
+
+   def getRate(self, sFrom, sTo):
+       '''
+       Interface from broker
+       :param sFrom:
+       :param sTo:
+       :return:
+       '''
+       sMessage = self.getExchangeAmountJson(self, sFrom, sTo)
+       # {u'jsonrpc': u'2.0', u'id': 2, u'result': u'0.32835'}
+       rate = sMessage['result']
+       return rate
+
+
 
    '''
    def getCurrencies(self):
