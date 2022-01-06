@@ -1,3 +1,11 @@
+'''
+Update 5 Jan 2022
+- Shapeshift appears to have CLOSED its free API. So the functions below may no longer work.
+
+
+
+'''
+
 import json
 import requests
 from broker import broker
@@ -9,7 +17,7 @@ class Shapeshift(broker):
 
     '''
     def myinit(self):
-        self.API_URL = 'https://shapeshift.io'
+        self.API_URL = 'https://shapeshift.io/api'
         #self.API_URL = 'https://shapeshift.io'
         #self.API_KEY = 'a078d292d5cc4fc2ad11511651edafe2'  # ''place_your_api_key_here'
         #self.API_SECRET = 'e1ec6f1ad52df07800d18bed63333268889e2a3c470b3df3afc42a7cfafd66a3'  # ''place_your_api_secret_here'
@@ -43,11 +51,11 @@ class Shapeshift(broker):
         :return:
         '''
         sPair = sFrom + '_' + sTo
-        response = requests.get(self.API_URL + '/rate/' + sPair)
-        aaa = response.json()
-        print(response.json())
-        print (response)
-        return aaa['rate']
+        response = requests.get(self.API_URL + '/rate/' + sPair)    # <Response [200]>
+        out = response.json()
+        # {u'pair': u'CLAM_DOGE', u'rate': u'815.40783181'}
+        rate = out['rate']
+        return float(rate)
 
     def get_all(self):
         response = requests.get(self.API_URL + '/rate' )
