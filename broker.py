@@ -8,3 +8,8 @@ class broker(object):
     def getRate(self, sFrom, sTo ):
         raise NotImplementedError('users must define each interface')
         pass
+
+    @abc.abstractmethod
+    def getPairs(self):
+        raise NotImplementedError('users must define each interface')
+        pass
